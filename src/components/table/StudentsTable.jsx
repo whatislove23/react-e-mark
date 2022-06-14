@@ -98,7 +98,6 @@ export default function StudentsTable({ isAuth, students }) {
         .from('marks')
         .update({ grade })
         .match({ id: Number(id) })
-        
           toast.success("Оцінку змінено",)
     }
     catch{
@@ -131,7 +130,7 @@ export default function StudentsTable({ isAuth, students }) {
                   options={options}
                   styles={customStyles}
                   placeholder={
-                    value ? (value.grade == 0 ? 'НБ' : value.grade) : null
+                    value ? (value.grade==0?"НБ":(value.grade===1?" ":value.grade)): null
                   }
                   isSearchable={false}
                   menuPortalTarget={document.querySelector('body')}
@@ -142,7 +141,7 @@ export default function StudentsTable({ isAuth, students }) {
                 />
               ) : (
                 <div style={{ width: '100%', textAlign: 'center' }}>
-                  {value ? (value.grade==0?"НБ":(value.grade===1?"Б":value.grade)) : null}
+                  {value ? (value.grade==0?"НБ":(value.grade===1?" ":value.grade)): null}
                 </div>
               )}
             </div>

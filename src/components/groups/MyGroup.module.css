@@ -6,14 +6,17 @@
   padding: 20px;
   background: linear-gradient(145deg, #e6e6e6, #ffffff);
   box-shadow: 15px 15px 30px #ededed, -15px -15px 30px #ffffff;
-  /* overflow: hidden; */
   overflow-x: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 .headers {
   display: flex;
   gap: 20px;
 }
-
+.container::-webkit-scrollbar {
+  display: none;
+}
 .center {
   min-height: 500px;
   height: auto;

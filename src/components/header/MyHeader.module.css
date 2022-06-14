@@ -57,6 +57,7 @@
   }
   .links{
     display: flex;
+    
   }
  
 }
@@ -64,4 +65,7 @@
   .header{
     font-size: 35px;
   }
+}
+.links{
+  gap: 10px;
 }

@@ -11,7 +11,6 @@ import { useParams } from 'react-router-dom';
 import MyBtn from '../components/btn/MyBtn';
 import ReactTooltip from 'react-tooltip';
 import {
-  getAllGroups,
   getGroupStudents,
   getLessonsByGroupId,
   getStudentsByGroupId,
@@ -48,74 +47,68 @@ export default function Group({ isAuth, setAuth }) {
   function getRandomInt() {
     return Math.floor(Math.random() * 5000000);
   }
-  let addNewStudent = async () => {
-    if (firstName && lastName) {
-      setStatus('pending');
-      let studentId = getRandomInt();
-      await supabase
-        .from('students')
-        .insert({
-          id: studentId,
-          group_id: groupId,
-          first_name: firstName,
-          last_name: lastName,
-        })
-    lessonsIdByGroup.forEach(async lesson => {
-      console.log(lesson)
-           await supabase
-              .from('marks')
-              .insert({
-                student_id: studentId,
-                subject_id: id,
-                lesson_id: lesson.lesson_id,
-                grade: 0,
-              });
-           await supabase
-              .from('lessons_students')
-              .insert({ student_id: studentId, lesson_id: lesson.lesson_id })
-
-              getGroupStudents(id, groupId).then(data => {
-                setData(data);
-                setStatus('resolved');
-                setModal(false);
-              });
-            })
-            toast.success("Cтудента додано")
-          }
-  };
-
-
-  let addNewLesson = async () => {
-    let lessonId = getRandomInt();
-    setStatus('pending');
-    if (lessonTitle) {
-      await supabase
-        .from('lessons')
-        .insert({ title: lessonTitle, id: lessonId, description: description });
-      await supabase
-        .from('journals')
-        .insert({ lesson_id: lessonId, subject_id: id });
-      studentsIdByGroup.forEach(async student => {
-        // console.log(student)
-        await supabase
-          .from('marks')
-          .insert({
-            student_id: student.id,
-            lesson_id: lessonId,
-            subject_id: id,
-          });
-        await supabase
-          .from('lessons_students')
-          .insert({ lesson_id: lessonId, student_id: student.id });
-            await getGroupStudents(id, groupId).then(data => {
-            setData(data);
-            setStatus('resolved');
-          });
+  async function addNewStudent(){
+    if(firstName&&lastName){
+      try {
+        setModal(false)
+        let studentId = getRandomInt()
+        setStatus('pending');
+        await supabase.from("students").insert({group_id:groupId,first_name:firstName,last_name:lastName,id:studentId});
+        let {data}=await supabase.from("lessons").select("id")
+        for await(const el of data) {
+          Promise.all([
+            await supabase.from("lessons_students").insert({student_id:studentId,lesson_id:el.id}),
+            await supabase.from("marks").insert({student_id:studentId,lesson_id:el.id,subject_id:id}),
+            await supabase.from("journals").insert({lesson_id:el.id,subject_id:id})
+          ])
+        }
+      } finally {
+        getGroupStudents(id, groupId).then(data => {
+          setData(data);
+          setStatus('resolved');
+          toast.success("Студента додано")
+        });
+      }  
+    }
+    if(!firstName){
+      setModal(false)
+      toast.error("Введіть імʼя")
+    }
+    if(!lastName){
+      setModal(false)
+      toast.error("Введіть прізвище")
+    }
+  }
+  async function addNewLesson(){
+    if(lessonTitle){
+      setModal2(false)
+      setStatus("loading")
+      try {
+        let lessonId=getRandomInt();
+        Promise.all([
+          await supabase.from("lessons").insert({title:lessonTitle,description:description,id:lessonId}),
+          await supabase.from("journals").insert({lesson_id:lessonId,subject_id:id})
+        ])
+        let {data}=await supabase.from("students").select("id")
+        for await(const el of data) {
+          Promise.all([
+            await supabase.from("lessons_students").insert({student_id:el.id,lesson_id:lessonId}),
+           await supabase.from("marks").insert({student_id:el.id,lesson_id:lessonId,subject_id:id})
+          ])
+        }
+      } finally {
+        getGroupStudents(id, groupId).then(data => {
+          setData(data);
+          setStatus('resolved');
+          toast.success("Урок додано")
         });
       }
-      setModal2(false)
-      toast.success("Урок додано")
-  };
+    }
+    else{
+      setModal2(false);
+      toast.error("Введіть назву уроку")
+    }
+  }
 
   return (
     <div>
@@ -123,7 +116,7 @@ export default function Group({ isAuth, setAuth }) {
         Додати нового студента
         <div className={cl.ModalWrapper}>
           <Input fun={setFirstName} placeholder="Імʼя" />
-          <Input fun={setLastName} placeholder="Фамілія" />
+          <Input fun={setLastName} placeholder="Прізвище" />
           <MyBtn func={addNewStudent}>Додати</MyBtn>
         </div>
       </Modal>
