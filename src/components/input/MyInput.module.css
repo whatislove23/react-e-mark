@@ -1,0 +1,34 @@
+input {
+  display: block;
+  border-radius: 10px;
+  background: linear-gradient(315deg, #e6e6e6, #ffffff);
+  box-shadow: -10px -5px 20px #a1a1a167, 10px 10px 20px #ffffff;
+  height: 50px;
+  width: 100%;
+  border: 1px solid #a5a5a5;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  font-size: 18px;
+  padding: 5px;
+  display: flex;
+  font-size: 20px;
+  align-items: center;
+}
+input:focus {
+  outline: none;
+  border: 2px solid;
+  border-radius: 0;
+  border-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb) 1;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+}
+input[type="password"] {
+  font: large Verdana, sans-serif;
+}
+input[type="date"] {
+  background-color: #5b42f3;
+}

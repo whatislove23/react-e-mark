@@ -1,0 +1,69 @@
+.item {
+  font-size: 20px;
+  padding: 50px;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  height: 250px;
+  border-radius: 37px;
+  background: linear-gradient(145deg, #e6e6e6, #ffffff);
+  box-shadow: 15px 15px 30px #dbdbdb, -15px -15px 30px #ffffff98;
+  color: rgba(51, 51, 51, 0.568);
+  transition: all 0.1s ease-in;
+  -webkit-transition: all 0.1s ease-in;
+  -moz-transition: all 0.1s ease-in;
+  -ms-transition: all 0.1s ease-in;
+  -o-transition: all 0.1s ease-in;
+  overflow: hidden;
+}
+.item:hover{
+  cursor: pointer;
+
+}
+.item:active {
+  background: linear-gradient(315deg, #e6e6e6, #ffffff);
+  box-shadow: -15px -15px 30px #ededed, 15px 15px 30px #ffffff;
+  transform: scale(0.9);
+  -webkit-transform: scale(0.9);
+  -moz-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  -o-transform: scale(0.9);
+}
+
+.grid {
+  padding: 20px;
+  gap: 40px;
+  display: flex;
+   flex-wrap: wrap;
+
+}
+
+.add {
+  background-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
+  color: #ffffff;
+  width: 250px;
+  height: 250px;
+}
+.add:active {
+  background-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
+}
+.ModalWrapper {
+  width: 100%;
+  flex-direction: column;
+  margin: 10px auto 30px auto;
+  gap: 20px;
+  display: flex;
+ 
+}
+@media screen and (min-width: 320px) {
+  .grid{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:0 auto;
+  }
+}
