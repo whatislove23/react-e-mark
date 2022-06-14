@@ -32,11 +32,11 @@ export default function Group({ isAuth, setAuth }) {
   const [lessonTitle, setLessonTitle] = useState(undefined);
   const [description, setDescription] = useState(undefined);
   const [status, setStatus] = useState('idle');
-  useEffect(async () => {
+  useEffect(() => {
     setStatus('pending');
     getGroupStudents(id, groupId).then(data => {
-      setData(data);
       setStatus('resolved');
+      setData(data);
     });
     getStudentsByGroupId(groupId).then(data => {
       setStudentsIdByGroup(data);
@@ -49,7 +49,8 @@ export default function Group({ isAuth, setAuth }) {
     return Math.floor(Math.random() * 5000000);
   }
   let addNewStudent = async () => {
-    if ((firstName, lastName)) {
+    if (firstName && lastName) {
+      setStatus('pending');
       let studentId = getRandomInt();
       await supabase
         .from('students')
@@ -59,9 +60,9 @@ export default function Group({ isAuth, setAuth }) {
           first_name: firstName,
           last_name: lastName,
         })
-        .then(async () => {
-          lessonsIdByGroup.forEach(async lesson => {
-            await supabase
+    lessonsIdByGroup.forEach(async lesson => {
+      console.log(lesson)
+           await supabase
               .from('marks')
               .insert({
                 student_id: studentId,
@@ -69,21 +70,24 @@ export default function Group({ isAuth, setAuth }) {
                 lesson_id: lesson.lesson_id,
                 grade: 0,
               });
-            await supabase
+           await supabase
               .from('lessons_students')
-              .insert({ student_id: studentId, lesson_id: lesson.lesson_id });
-            getGroupStudents(id, groupId).then(data => {
-              setData(data);
-            });
-            setModal(false);
+              .insert({ student_id: studentId, lesson_id: lesson.lesson_id })
+
+              getGroupStudents(id, groupId).then(data => {
+                setData(data);
+                setStatus('resolved');
+                setModal(false);
+              });
+            })
             toast.success("Cтудента додано")
-          });
-        });
-    }
+          }
   };
+
 
   let addNewLesson = async () => {
     let lessonId = getRandomInt();
+    setStatus('pending');
     if (lessonTitle) {
       await supabase
         .from('lessons')
@@ -92,6 +96,7 @@ export default function Group({ isAuth, setAuth }) {
         .from('journals')
         .insert({ lesson_id: lessonId, subject_id: id });
       studentsIdByGroup.forEach(async student => {
+        // console.log(student)
         await supabase
           .from('marks')
           .insert({
@@ -102,11 +107,14 @@ export default function Group({ isAuth, setAuth }) {
         await supabase
           .from('lessons_students')
           .insert({ lesson_id: lessonId, student_id: student.id });
-        getGroupStudents(id, groupId).then(data => {
-          setData(data);
+            await getGroupStudents(id, groupId).then(data => {
+            setData(data);
+            setStatus('resolved');
+          });
         });
-      });
-    }
+      }
+      setModal2(false)
+      toast.success("Урок додано")
   };
 
   return (

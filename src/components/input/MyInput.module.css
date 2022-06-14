@@ -26,9 +26,7 @@ input:focus {
   -ms-border-radius: 0;
   -o-border-radius: 0;
 }
-input[type="password"] {
-  font: large Verdana, sans-serif;
-}
+
 input[type="date"] {
   background-color: #5b42f3;
 }

@@ -98,6 +98,7 @@ export default function StudentsTable({ isAuth, students }) {
         .from('marks')
         .update({ grade })
         .match({ id: Number(id) })
+        
           toast.success("Оцінку змінено",)
     }
     catch{
@@ -141,7 +142,7 @@ export default function StudentsTable({ isAuth, students }) {
                 />
               ) : (
                 <div style={{ width: '100%', textAlign: 'center' }}>
-                  {value ? (value.grade==0?"НБ":(value.grade==1?"Б":value.grade)) : null}
+                  {value ? (value.grade==0?"НБ":(value.grade===1?"Б":value.grade)) : null}
                 </div>
               )}
             </div>

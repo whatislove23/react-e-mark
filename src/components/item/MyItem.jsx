@@ -8,18 +8,36 @@ import React from 'react';
 import { getAllGroups, createGroup } from './../../services/groups';
 import MyInput from '../input/MyInput';
 import { supabase } from '../../supabaseClient';
-export default function MyItem({ subjects, isAuth, }) {
+import { getAllSubjects } from '../../services/subjects';
+import { toast } from 'react-toastify';
+export default function MyItem({ subjects, isAuth,status }) {
   const [modal, setModal] = useState(false);
   const [teacher, setTeacher] = useState(undefined);
   const [subject, setSubject] = useState(undefined);
+  const [data, setData] = useState(subjects);
+
+  // useEffect(async () => {
+  //   await getAllSubjects().then(data=>{
+  //     setData(data.data);
+  //   })
+  // }, []);
+
   async function createSubject() {
     if (teacher && subject) {
+      status("loading")
       const { data, error } = await supabase
         .from('subjects')
         .insert([{ name: subject, teacher_name: teacher }])
-        .then(setModal(false));
+          await getAllSubjects().then(data=>{
+            setData(data.data);
+            setModal(false)
+            status("resolved")
+            toast.success("Предмет додано")
+          })
+        
     }
   }
+
   return (
     <div className={classes.grid}>
       <Modal className="modal" visible={modal} setVisible={setModal}>
@@ -39,7 +57,8 @@ export default function MyItem({ subjects, isAuth, }) {
           Додати новий предмет
         </div>
       ) : null}
-      {subjects.map(subject => {
+
+      {data.map(subject => {
         return (
           <div key={subject.id}>
             <Link

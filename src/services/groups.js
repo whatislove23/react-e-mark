@@ -83,7 +83,7 @@ export async function getGroupStudents(subjectId, groupId) {
     group: group,
     students: map(students, removeNullableLessonsFromStudent),
   };
-  console.log('response', response);
+  // console.log('response', response);
   return response;
 }
 export async function getStudentsByGroupId(id) {

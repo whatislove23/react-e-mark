@@ -10,6 +10,7 @@ export default function Home({ isAuth, setAuth }) {
   useEffect(async () => {
     setStatus('loading');
     let { data } = await getAllSubjects();
+  
     setData(data);
     setStatus('resolved');
   }, []);
@@ -20,7 +21,8 @@ export default function Home({ isAuth, setAuth }) {
           <MyItem
             setAuth={setAuth}
             isAuth={isAuth}
-            subjects={data}      
+            subjects={data}  
+            status={setStatus}    
           />
         ) : (
           <div className={classes.center}>
