@@ -30,6 +30,7 @@
     "react-table": "^7.8.0",
     "react-toastify": "^9.0.3",
     "react-tooltip": "^4.2.21",
+    "serve": "^13.0.2",
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4"
   },
@@ -39,7 +40,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start:server": "nodemon src/server.js",
-    "prettify": "prettier --write './**/*.{js,jsx}'"
+    "prettify": "prettier --write './**/*.{js,jsx}'",
+    "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
     "extends": [
