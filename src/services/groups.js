@@ -22,7 +22,6 @@ async function getLessonForStudentBySubjectId(student, subjectId) {
     .select('lesson:lessons(*, journal:journals!inner(subject_id) )')
     .eq('student_id', student.id)
     .eq('lesson.journal.subject_id', subjectId);
-
   return {
     ...student,
     lessons: map(lessons, 'lesson').filter(Boolean),
@@ -83,9 +82,11 @@ export async function getGroupStudents(subjectId, groupId) {
     group: group,
     students: map(students, removeNullableLessonsFromStudent),
   };
-  // console.log('response', response);
+  console.log(response)
   return response;
 }
+
+
 export async function getStudentsByGroupId(id) {
   // console.log(id)
   const { data } = await supabase

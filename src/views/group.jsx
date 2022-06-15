@@ -51,15 +51,15 @@ export default function Group({ isAuth, setAuth }) {
     if(firstName&&lastName){
       try {
         setModal(false)
-        let studentId = getRandomInt()
         setStatus('pending');
+        let studentId = getRandomInt()
         await supabase.from("students").insert({group_id:groupId,first_name:firstName,last_name:lastName,id:studentId});
         let {data}=await supabase.from("lessons").select("id")
         for await(const el of data) {
           Promise.all([
             await supabase.from("lessons_students").insert({student_id:studentId,lesson_id:el.id}),
             await supabase.from("marks").insert({student_id:studentId,lesson_id:el.id,subject_id:id}),
-            await supabase.from("journals").insert({lesson_id:el.id,subject_id:id})
+            // await supabase.from("journals").insert({lesson_id:el.id,subject_id:id})
           ])
         }
       } finally {
@@ -128,7 +128,6 @@ export default function Group({ isAuth, setAuth }) {
         </div>
         <MyBtn func={addNewLesson}>Додати</MyBtn>
       </Modal>
-
       <div className={classes.container}>
         {status === 'resolved' ? (
           <div>
@@ -154,7 +153,6 @@ export default function Group({ isAuth, setAuth }) {
                   />
                 </div>
               ) : null}
-
               <ReactTooltip id="studAdd" place="top" effect="solid">
                 Додати нового студента
               </ReactTooltip>

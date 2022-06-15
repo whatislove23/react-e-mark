@@ -11,17 +11,19 @@ export default function Login({ isAuth, setAuth }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleLogin = async e => {
-    try {setLoading(true);
-      const { user, error } = await supabase.auth.signIn({ email: email, password: password});
-      let user2 = await supabase.auth.user();
-      if (user2) {
+    try {
+      setLoading(true);
+      await supabase.auth.signIn({ email: email, password: password});
+      let user = supabase.auth.user();
+      if (user) {
         setAuth(true);
         toast.success("Авторизовано")
-      } if (error) throw error;
+      }
     } catch (error) {
-      console.log(error)
       toast.error(`${error.error_description || error.message=="You must provide either an email, phone number, a third-party provider or OpenID Connect."?"Не всі поля заповнені":"Невірна пошта або пароль"}`)
-    } finally { setLoading(false);}
+    } finally {
+       setLoading(false);
+      }
   };
   return ( <React.Fragment>
       {isAuth ? <Navigate to="/" replace /> : null}

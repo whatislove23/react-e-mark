@@ -92,16 +92,21 @@ export default function SubjectGroups({ isAuth }) {
 
   async function addGroup() {
     if (groupid) {
-      let { data, status, error } = await supabase
+      await supabase
         .from('enrollments')
-        .insert({ group_id: groupid, subject_id: id });
-      getGroupsBySubjectId(id).then(setData).then(()=>{setModal(false);toast.success("Журнал створено")});
+        .insert({ group_id: groupid, subject_id: id })
+      getGroupsBySubjectId(id)
+      .then(setData)
+      .then(()=>{
+        setModal(false);
+        toast.success("Журнал створено")});
     }
     if(!groupid){
       setModal(false)
       toast.error("Виберіть групу")
     }
   }
+
   return (
     <React.Fragment>
       <div className={classes.container}>
