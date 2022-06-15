@@ -97,6 +97,10 @@ export default function SubjectGroups({ isAuth }) {
         .insert({ group_id: groupid, subject_id: id });
       getGroupsBySubjectId(id).then(setData).then(()=>{setModal(false);toast.success("Журнал створено")});
     }
+    if(!groupid){
+      setModal(false)
+      toast.error("Виберіть групу")
+    }
   }
   return (
     <React.Fragment>

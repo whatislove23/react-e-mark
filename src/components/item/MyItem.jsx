@@ -24,17 +24,25 @@ export default function MyItem({ subjects, isAuth,status }) {
 
   async function createSubject() {
     if (teacher && subject) {
+      setModal(false)
       status("loading")
       const { data, error } = await supabase
         .from('subjects')
         .insert([{ name: subject, teacher_name: teacher }])
           await getAllSubjects().then(data=>{
             setData(data.data);
-            setModal(false)
             status("resolved")
             toast.success("Предмет додано")
           })
         
+    }
+    if(!teacher){
+      setModal(false)
+      toast.error("Введіть ПІБ Викладача")
+    }
+    if(!subject){
+      setModal(false)
+      toast.error("Введіть назву предмета")
     }
   }
 

@@ -19,12 +19,25 @@ input {
 input:focus {
   outline: none;
   border: 2px solid;
-  border-radius: 0;
+  border-radius: 10px;
   border-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb) 1;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  animation: gradient infinite ease 2s;
+  -webkit-animation: gradient infinite ease .16s;
+}
+@keyframes gradient {
+  0%{
+    border-image: linear-gradient(305deg, rgba(0,101,255,1) 5%, rgba(246,7,231,1) 73%, rgba(255,0,213,1) 1);
+  }
+  50%{
+    border-image: linear-gradient(146deg, rgba(0,101,255,1) 5%, rgba(246,7,231,1) 73%, rgba(255,0,213,1) 1);
+  }
+  100%{
+    border-image:linear-gradient(262deg, rgba(0,101,255,1) 5%, rgba(246,7,231,1) 73%, rgba(255,0,213,1) 1);
+  }
 }
 
 input[type="date"] {

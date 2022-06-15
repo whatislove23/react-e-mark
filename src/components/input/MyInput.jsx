@@ -8,6 +8,7 @@ export default function MyInput(props) {
       onInput={e => {
         props.fun(e.target.value);
       }}
+      
     />
   );
 }
