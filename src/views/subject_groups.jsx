@@ -144,12 +144,14 @@ export default function SubjectGroups({ isAuth }) {
               ) : null}
 
               {map(data.groups, group => {
-                //  console.log(data)
+                 console.log(data)
+
                 return (
                   <div key={group.id}>
                     <Link className={cl.item} to={`${group.id}`}>
                       <div>{group.name}</div>
                       <div>{data.subject.name}</div>
+                      <div>Викладач: {data.subject.teacher_name}</div>
                     </Link>
                   </div>
                 );

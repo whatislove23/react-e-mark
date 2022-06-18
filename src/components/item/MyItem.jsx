@@ -67,12 +67,14 @@ export default function MyItem({ subjects, isAuth,status }) {
       ) : null}
 
       {data.map(subject => {
+        console.log(subject)
         return (
           <div key={subject.id}>
             <Link
               className={classes.item}
               to={`/subjects/${subject.id}/groups`}>
               {subject.name}
+              <div>Викладач: {subject.teacher_name}</div>
             </Link>
           </div>
         );
