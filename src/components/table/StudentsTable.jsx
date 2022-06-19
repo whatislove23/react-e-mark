@@ -84,7 +84,7 @@ const baseColumns = [
         accessor: 'first_name',
       },
       {
-        Header: 'Фамілія',
+        Header: 'Прізвище',
         accessor: 'last_name',
       },
     ],
