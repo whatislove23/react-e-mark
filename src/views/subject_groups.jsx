@@ -91,6 +91,9 @@ export default function SubjectGroups({ isAuth }) {
   }, []);
 
   async function addGroup() {
+    let {data} =await supabase
+        .from('enrollments')
+        .select("*")
     if (groupid) {
       await supabase
         .from('enrollments')
