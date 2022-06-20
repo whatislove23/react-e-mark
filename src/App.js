@@ -24,7 +24,7 @@ export default function App() {
         <MyHeader
           setAuth={setAuth}
           isAuth={isAuth}
-          title="Електроний журнал"></MyHeader>
+          title="Електронний журнал"></MyHeader>
         <Routes>
           <Route
             path="/"
