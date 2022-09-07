@@ -47,72 +47,101 @@ export default function Group({ isAuth, setAuth }) {
   function getRandomInt() {
     return Math.floor(Math.random() * 5000000);
   }
-  async function addNewStudent(){
-    if(firstName&&lastName){
+  async function addNewStudent() {
+    if (firstName && lastName) {
       try {
-        setModal(false)
+        setModal(false);
         setStatus('pending');
-        let studentId = getRandomInt()
-        await supabase.from("students").insert({group_id:groupId,first_name:firstName,last_name:lastName,id:studentId});
-        await supabase.from("lesson_group").select("lesson_id").eq("group_id",groupId).then(async data=>{
-          for (const lessId of data.data) {
-            Promise.all([
-              await supabase.from("lessons_students").insert({student_id:studentId,lesson_id:lessId.lesson_id}),
-              await supabase.from("marks").insert({student_id:studentId,lesson_id:lessId.lesson_id,subject_id:id}),
-            ])
-          }
-        })   
+        let studentId = getRandomInt();
+        await supabase.from('students').insert({
+          group_id: groupId,
+          first_name: firstName,
+          last_name: lastName,
+          id: studentId,
+        });
+        await supabase
+          .from('lesson_group')
+          .select('lesson_id')
+          .eq('group_id', groupId)
+          .then(async data => {
+            for (const lessId of data.data) {
+              Promise.all([
+                await supabase.from('lessons_students').insert({
+                  student_id: studentId,
+                  lesson_id: lessId.lesson_id,
+                }),
+                await supabase.from('marks').insert({
+                  student_id: studentId,
+                  lesson_id: lessId.lesson_id,
+                  subject_id: id,
+                }),
+              ]);
+            }
+          });
       } finally {
         getGroupStudents(id, groupId).then(data => {
           setData(data);
           setStatus('resolved');
-          toast.success("Студента додано")
+          toast.success('Студента додано');
         });
-      }  
+      }
     }
-    if(!firstName){
-      setModal(false)
-      toast.error("Введіть імʼя")
+    if (!firstName) {
+      setModal(false);
+      toast.error('Введіть імʼя');
     }
-    if(!lastName){
-      setModal(false)
-      toast.error("Введіть прізвище")
+    if (!lastName) {
+      setModal(false);
+      toast.error('Введіть прізвище');
     }
   }
-  async function addNewLesson(){
-    if(lessonTitle){
-      setModal2(false)
-      setStatus("loading")
+  async function addNewLesson() {
+    if (lessonTitle) {
+      setModal2(false);
+      setStatus('loading');
       try {
-        let lessonId=getRandomInt();
+        let lessonId = getRandomInt();
         Promise.all([
-          await supabase.from("lesson_group").insert({lesson_id:lessonId,group_id:groupId}),
-          await supabase.from("lessons").insert({title:lessonTitle,description:description,id:lessonId}),
-          await supabase.from("journals").insert({lesson_id:lessonId,subject_id:id})
-        ])
-        let {data}=await supabase.from("students").select("id,group_id")
-       
+          await supabase
+            .from('lesson_group')
+            .insert({ lesson_id: lessonId, group_id: groupId }),
+          await supabase.from('lessons').insert({
+            title: lessonTitle,
+            description: description,
+            id: lessonId,
+          }),
+          await supabase
+            .from('journals')
+            .insert({ lesson_id: lessonId, subject_id: id }),
+        ]);
+        let { data } = await supabase.from('students').select('id,group_id');
+
         for (const el of data) {
           // console.log(el.group_id)
           // console.log(groupId==el.group_id)
-          if(el.group_id==groupId){
+          if (el.group_id == groupId) {
             Promise.all([
-              await supabase.from("lessons_students").insert({student_id:el.id,lesson_id:lessonId}),
-             await supabase.from("marks").insert({student_id:el.id,lesson_id:lessonId,subject_id:id})
-            ])
+              await supabase
+                .from('lessons_students')
+                .insert({ student_id: el.id, lesson_id: lessonId }),
+              await supabase.from('marks').insert({
+                student_id: el.id,
+                lesson_id: lessonId,
+                subject_id: id,
+              }),
+            ]);
           }
         }
       } finally {
         getGroupStudents(id, groupId).then(data => {
           setData(data);
           setStatus('resolved');
-          toast.success("Урок додано")
+          toast.success('Урок додано');
         });
       }
-    }
-    else{
+    } else {
       setModal2(false);
-      toast.error("Введіть назву уроку")
+      toast.error('Введіть назву уроку');
     }
   }
 
@@ -139,7 +168,7 @@ export default function Group({ isAuth, setAuth }) {
           <div>
             <div className={classes.title}>
               {data ? `${data.group.name} ${data.subject.name}` : null}
-             
+
               {isAuth ? (
                 <div className={classes.title}>
                   <IoPersonAdd
@@ -167,7 +196,7 @@ export default function Group({ isAuth, setAuth }) {
                 Додати новий урок
               </ReactTooltip>
             </div>
-            <div>{ data?`Викладач: ${data.subject.teacher_name}`:null}</div>
+            <div>{data ? `Викладач: ${data.subject.teacher_name}` : null}</div>
             <StudentsTable isAuth={isAuth} {...data} />
           </div>
         ) : (

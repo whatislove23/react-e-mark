@@ -8,13 +8,14 @@ export async function getAllSubjects() {
   } catch (e) {}
 }
 
-
-
 export async function getGroupsBySubjectId(id) {
-  let { data} = await supabase
-    .from('groups')
-    .select('*, subjects!inner(*)')
+  let { data } = await supabase
+    .from('enrollments')
+    .select('groups(*), subjects!inner(*)')
     .eq('subjects.id', id);
+  console.log('data', data);
+  console.log('122', get(data));
+  return data;
   return {
     subject: get(data, [0, 'subjects', 0]),
     groups: map(data, ({ subjects, ...group }) => group),

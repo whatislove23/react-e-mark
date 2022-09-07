@@ -1,4 +1,5 @@
 {
+  "homepage": "http://whatislove23.github.io/react-e-mark",
   "name": "diploma",
   "version": "0.1.0",
   "private": true,
@@ -34,15 +35,15 @@
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4"
   },
-
   "scripts": {
-    "start": "serve -s build",
+    "perdeploy":"npm run build",
+    "deploy":"gh-pages -d build",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start:server": "nodemon src/server.js",
-    "prettify": "prettier --write './**/*.{js,jsx}'",
-    "heroku-postbuild": "npm run build"
+    "prettify": "prettier --write './**/*.{js,jsx}'"
   },
   "eslintConfig": {
     "extends": [
@@ -62,5 +63,11 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000"
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
+  }
 }

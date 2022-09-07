@@ -82,31 +82,29 @@ export default function SubjectGroups({ isAuth }) {
   const [modal, setModal] = useState(false);
   const [groupid, setGroupid] = useState();
   useEffect(() => {
-    Promise.all([getGroupsBySubjectId(id), getAllGroups()]).then(result=>{
-      const [groupsPerSubject,allGroups] = result
-      setData(groupsPerSubject)
-      setOptions(allGroups)
-    })
-    
+    Promise.all([getGroupsBySubjectId(id), getAllGroups()]).then(result => {
+      const [groupsPerSubject, allGroups] = result;
+      setData(groupsPerSubject);
+      setOptions(allGroups);
+    });
   }, []);
-
+  // console.log('data2,', data);
   async function addGroup() {
-    let {data} =await supabase
-        .from('enrollments')
-        .select("*")
+    let { data } = await supabase.from('enrollments').select('*');
     if (groupid) {
       await supabase
         .from('enrollments')
-        .insert({ group_id: groupid, subject_id: id })
+        .insert({ group_id: groupid, subject_id: id });
       getGroupsBySubjectId(id)
-      .then(setData)
-      .then(()=>{
-        setModal(false);
-        toast.success("Журнал створено")});
+        .then(setData)
+        .then(() => {
+          setModal(false);
+          toast.success('Журнал створено');
+        });
     }
-    if(!groupid){
-      setModal(false)
-      toast.error("Виберіть групу")
+    if (!groupid) {
+      setModal(false);
+      toast.error('Виберіть групу');
     }
   }
 
@@ -119,19 +117,20 @@ export default function SubjectGroups({ isAuth }) {
               <Modal className="modal" visible={modal} setVisible={setModal}>
                 Додавання групи до предмета
                 <div className={cl.ModalWrapper}>
-
                   <div className={classes.selectadd}>
-                  
-                     <Select
+                    <Select
                       menuShouldBlockScroll={true}
-                      options={map(options,(option) =>({value:option.id,label:option.name}) )}
+                      options={map(options, option => ({
+                        value: option.id,
+                        label: option.name,
+                      }))}
                       styles={customStyles}
                       placeholder={'Обрати групу...'}
                       onChange={e => {
                         setGroupid(e.value);
                       }}
                       isSearchable={false}
-                    /> 
+                    />
                   </div>
                 </div>
                 <MyBtn func={addGroup}>Додати</MyBtn>
@@ -146,15 +145,17 @@ export default function SubjectGroups({ isAuth }) {
                 </div>
               ) : null}
 
-              {map(data.groups, group => {
-                 console.log(data)
+              {map(data, group => {
+                console.log(data);
+                console.log(group);
 
                 return (
+                  // <div></div>
                   <div key={group.id}>
-                    <Link className={cl.item} to={`${group.id}`}>
-                      <div>{group.name}</div>
-                      <div>{data.subject.name}</div>
-                      <div>Викладач: {data.subject.teacher_name}</div>
+                    <Link className={cl.item} to={`${group.group_id}`}>
+                      <div>{group.groups.name}</div>
+                      <div>{group.subjects.name}</div>
+                      <div>Викладач: {group.subjects.teacher_name}</div>
                     </Link>
                   </div>
                 );
