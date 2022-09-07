@@ -31,6 +31,10 @@ export default function App() {
             element={<Home setAuth={setAuth} isAuth={isAuth} />}
           />
           <Route
+            path="/"
+            element={<Home setAuth={setAuth} isAuth={isAuth} />}
+          />
+          <Route
             path="/subjects/:id/groups"
             element={<SubjectGroups isAuth={isAuth} />}
           />
