@@ -47,6 +47,7 @@ export default function Group({ isAuth, setAuth }) {
   function getRandomInt() {
     return Math.floor(Math.random() * 5000000);
   }
+  console.log(id, groupId);
   async function addNewStudent() {
     if (firstName && lastName) {
       try {

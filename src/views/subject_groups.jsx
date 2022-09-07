@@ -152,7 +152,7 @@ export default function SubjectGroups({ isAuth }) {
                 return (
                   // <div></div>
                   <div key={group.id}>
-                    <Link className={cl.item} to={`${group.group_id}`}>
+                    <Link className={cl.item} to={`${group.groups.id}`}>
                       <div>{group.groups.name}</div>
                       <div>{group.subjects.name}</div>
                       <div>Викладач: {group.subjects.teacher_name}</div>
