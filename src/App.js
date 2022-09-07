@@ -4,15 +4,15 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import Group from './views/group';
 import Home from './views/home';
 import Login from './views/login';
-import React, {useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 import SubjectGroups from './views/subject_groups';
 import { supabase } from './supabaseClient';
 
 export default function App() {
   let [isAuth, setAuth] = useState(false);
-  useEffect( () => {
+  useEffect(() => {
     let user = supabase.auth.user();
     if (user) {
       setAuth(!isAuth);
@@ -27,7 +27,7 @@ export default function App() {
           title="Електронний журнал"></MyHeader>
         <Routes>
           <Route
-            path="/"
+            path="/react-e-mark"
             element={<Home setAuth={setAuth} isAuth={isAuth} />}
           />
           <Route
@@ -44,7 +44,7 @@ export default function App() {
           />
         </Routes>
       </BrowserRouter>
-      <ToastContainer position='bottom-right' autoClose={2000}/>
+      <ToastContainer position="bottom-right" autoClose={2000} />
     </div>
   );
 }

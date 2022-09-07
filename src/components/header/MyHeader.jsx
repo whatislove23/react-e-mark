@@ -13,11 +13,15 @@ export default function MyHeader({ title, isAuth, setAuth }) {
         <div></div>
         <div>{title}</div>
         <div className={styles.links}>
-          <Link data-tip data-for="home" className={styles.img} to={`/`}>
+          <Link
+            data-tip
+            data-for="home"
+            className={styles.img}
+            to={`/react-e-mark`}>
             <HiHome className={styles.img} />
           </Link>
           {isAuth ? (
-            <Link to="/">
+            <Link to="/react-e-mark">
               <BiLogOut
                 className={styles.img}
                 onClick={() => {
