@@ -13,23 +13,35 @@ export default function Login({ isAuth, setAuth }) {
   const handleLogin = async e => {
     try {
       setLoading(true);
-      await supabase.auth.signIn({ email: email, password: password});
+      await supabase.auth.signIn({ email: email, password: password });
       let user = supabase.auth.user();
       if (user) {
         setAuth(true);
-        toast.success("Авторизовано")
+        toast.success('Авторизовано');
       }
     } catch (error) {
-      toast.error(`${error.error_description || error.message=="You must provide either an email, phone number, a third-party provider or OpenID Connect."?"Не всі поля заповнені":"Невірна пошта або пароль"}`)
+      toast.error(
+        `${
+          error.error_description ||
+          error.message ==
+            'You must provide either an email, phone number, a third-party provider or OpenID Connect.'
+            ? 'Не всі поля заповнені'
+            : 'Невірна пошта або пароль'
+        }`,
+      );
     } finally {
-       setLoading(false);
-      }
+      setLoading(false);
+    }
   };
-  return ( <React.Fragment>
+  return (
+    <React.Fragment>
       {isAuth ? <Navigate to="/" replace /> : null}
       <div className={cl.container}>
         {loading ? (
-          <div className={cl.center}> <Loader /></div>
+          <div className={cl.center}>
+            {' '}
+            <Loader />
+          </div>
         ) : (
           <div className={cl.wrapper}>
             <div className={cl.autorise}>Авторизація</div>
@@ -45,7 +57,11 @@ export default function Login({ isAuth, setAuth }) {
                 fun={setPassword}
               />
             </div>
-            <div className={cl.autorisebtn}><MyBtn func={handleLogin}>Авторизуватися</MyBtn></div>
+            <div className={cl.autorisebtn}>
+              <MyBtn func={handleLogin}>Авторизуватися</MyBtn>
+            </div>
+            Авторизація адміністратора вимкнута з метою демонстрації всього
+            функціонала додатку
           </div>
         )}
       </div>

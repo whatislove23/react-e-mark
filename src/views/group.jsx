@@ -170,7 +170,7 @@ export default function Group({ isAuth, setAuth }) {
             <div className={classes.title}>
               {data ? `${data.group.name} ${data.subject.name}` : null}
 
-              {isAuth ? (
+              {true ? (
                 <div className={classes.title}>
                   <IoPersonAdd
                     data-tip
@@ -198,7 +198,7 @@ export default function Group({ isAuth, setAuth }) {
               </ReactTooltip>
             </div>
             <div>{data ? `Викладач: ${data.subject.teacher_name}` : null}</div>
-            <StudentsTable isAuth={isAuth} {...data} />
+            <StudentsTable isAuth={true} {...data} />
           </div>
         ) : (
           <div className={classes.center}>

@@ -5,13 +5,20 @@ import React, { useEffect, useState } from 'react';
 import { getAllSubjects } from '../services/subjects';
 
 export default function Home({ isAuth, setAuth }) {
-  const [data, setData] = useState();
+  const [data, setData] = useState(null);
   const [status, setStatus] = useState('ide');
   useEffect(async () => {
     setStatus('loading');
-    let { data } = await getAllSubjects();
-  
+    let { data, error } = await getAllSubjects();
     setData(data);
+    if (error) {
+      let alertMessage =
+        error.message === 'FetchError: Load failed' &&
+        'FetchError: Load failed probably database is disabled contact to admin';
+      alert(alertMessage);
+      setStatus('loading');
+      return;
+    }
     setStatus('resolved');
   }, []);
   return (
@@ -20,9 +27,9 @@ export default function Home({ isAuth, setAuth }) {
         {status === 'resolved' ? (
           <MyItem
             setAuth={setAuth}
-            isAuth={isAuth}
-            subjects={data}  
-            status={setStatus}    
+            isAuth={true}
+            subjects={data}
+            status={setStatus}
           />
         ) : (
           <div className={classes.center}>

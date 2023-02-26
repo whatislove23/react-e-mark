@@ -10,7 +10,7 @@ import MyInput from '../input/MyInput';
 import { supabase } from '../../supabaseClient';
 import { getAllSubjects } from '../../services/subjects';
 import { toast } from 'react-toastify';
-export default function MyItem({ subjects, isAuth,status }) {
+export default function MyItem({ subjects, isAuth, status }) {
   const [modal, setModal] = useState(false);
   const [teacher, setTeacher] = useState(undefined);
   const [subject, setSubject] = useState(undefined);
@@ -24,25 +24,24 @@ export default function MyItem({ subjects, isAuth,status }) {
 
   async function createSubject() {
     if (teacher && subject) {
-      setModal(false)
-      status("loading")
+      setModal(false);
+      status('loading');
       const { data, error } = await supabase
         .from('subjects')
-        .insert([{ name: subject, teacher_name: teacher }])
-          await getAllSubjects().then(data=>{
-            setData(data.data);
-            status("resolved")
-            toast.success("Предмет додано")
-          })
-        
+        .insert([{ name: subject, teacher_name: teacher }]);
+      await getAllSubjects().then(data => {
+        setData(data.data);
+        status('resolved');
+        toast.success('Предмет додано');
+      });
     }
-    if(!teacher){
-      setModal(false)
-      toast.error("Введіть ПІБ Викладача")
+    if (!teacher) {
+      setModal(false);
+      toast.error('Введіть ПІБ Викладача');
     }
-    if(!subject){
-      setModal(false)
-      toast.error("Введіть назву предмета")
+    if (!subject) {
+      setModal(false);
+      toast.error('Введіть назву предмета');
     }
   }
 
@@ -56,7 +55,7 @@ export default function MyItem({ subjects, isAuth,status }) {
         </div>
         <MyBtn func={createSubject}>Додати</MyBtn>
       </Modal>
-      {isAuth ? (
+      {true ? (
         <div
           className={[classes.item, classes.add].join(' ')}
           onClick={() => {
@@ -66,19 +65,20 @@ export default function MyItem({ subjects, isAuth,status }) {
         </div>
       ) : null}
 
-      {data.map(subject => {
-        console.log(subject)
-        return (
-          <div key={subject.id}>
-            <Link
-              className={classes.item}
-              to={`/subjects/${subject.id}/groups`}>
-              {subject.name}
-              <div>Викладач: {subject.teacher_name}</div>
-            </Link>
-          </div>
-        );
-      })}
+      {data &&
+        data.map(subject => {
+          console.log(subject);
+          return (
+            <div key={subject.id}>
+              <Link
+                className={classes.item}
+                to={`/subjects/${subject.id}/groups`}>
+                {subject.name}
+                <div>Викладач: {subject.teacher_name}</div>
+              </Link>
+            </div>
+          );
+        })}
     </div>
   );
 }

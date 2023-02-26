@@ -135,7 +135,7 @@ export default function SubjectGroups({ isAuth }) {
                 </div>
                 <MyBtn func={addGroup}>Додати</MyBtn>
               </Modal>
-              {isAuth ? (
+              {true ? (
                 <div
                   className={[cl.item, cl.add].join(' ')}
                   onClick={() => {
